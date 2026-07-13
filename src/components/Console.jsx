@@ -10,7 +10,7 @@ import { buildCodyReply } from "./console/codyReply.js";
 import Profil from "./Profil.jsx";
 import Integrations from "./Integrations.jsx";
 
-// 🌟 Animatsiyalar uchun Framer Motion
+// 🌟 Animatsiyalar uchun Framer Motion import qilindi
 import { motion, AnimatePresence } from "framer-motion";
 
 // Font Awesome Ikonkalari
@@ -20,8 +20,7 @@ import {
   faCopy, 
   faTimes, 
   faCheckCircle, 
-  faExclamationCircle,
-  faCloudUploadAlt
+  faExclamationCircle 
 } from "@fortawesome/free-solid-svg-icons";
 import { 
   faTelegram, 
@@ -41,7 +40,6 @@ import {
 } from "../lib/api.js";
 
 function extractCode(text) {
-  if (!text) return { text: "", code: null };
   const match = text.match(/```(\w+)?\n([\s\S]*?)```/);
   if (!match) return { text, code: null };
   const lang = match[1] || "text";
@@ -94,6 +92,7 @@ export default function Console({ user, onSignOut }) {
   const [activeChatId, setActiveChatId] = useState(null);
   const [activeCode, setActiveCode] = useState(null);
 
+  // Modal konteynerini aniqlash uchun Ref
   const modalRef = useRef(null);
 
   // ----------------------------------------------------
@@ -316,12 +315,8 @@ export default function Console({ user, onSignOut }) {
     if (backendMode) updateChatApi(token, chatId, { is_pinned: nextPinned });
   };
 
-  // 🚀 Chiroyli va dinamik Publish funksiyasi
-  const handlePublishChat = (chatId) => {
-    if (backendMode) {
-      updateChatApi(token, chatId, { is_published: true });
-    }
-    console.log(`Chat [${chatId}] successfully published to production.`);
+  const handlePublishChat = () => {
+    console.log("Chat successfully published to production.");
   };
 
   const handleDeleteMessage = (index) => {
@@ -364,7 +359,7 @@ export default function Console({ user, onSignOut }) {
     }
   };
 
-  // 🛑 MODALDAN TASHQARI HUDUD BOSILGANDA YOPISH
+  // 🛑 MODALDAN TASHQARI HUDUD BOSILGANDA YOPISH LOGIKASI
   const handleBackdropClick = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
       setIsShareModalOpen(false);
@@ -410,7 +405,7 @@ export default function Console({ user, onSignOut }) {
       </AnimatePresence>
 
       {/* ======================================================================= */}
-      {/* 🏴‍☠️ REAL-TIME STUDIO SHARE MODAL INTERFACE */}
+      {/* 🏴‍☠️ REAL-TIME STUDIO SHARE MODAL INTERFACE (ANIMATED) */}
       {/* ======================================================================= */}
       <AnimatePresence>
         {isShareModalOpen && (
@@ -429,6 +424,8 @@ export default function Console({ user, onSignOut }) {
               transition={{ type: "spring", damping: 25, stiffness: 350 }}
               className="w-full max-w-md bg-[#121214] border border-white/[0.06] rounded-2xl p-6 shadow-[0_20px_60px_rgba(0,0,0,0.7)] relative mx-4 text-center"
             >
+              
+              {/* Yopish tugmasi */}
               <button 
                 onClick={() => setIsShareModalOpen(false)}
                 className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/[0.03] hover:bg-white/[0.08] transition-colors flex items-center justify-center text-white/50 hover:text-white"
@@ -436,6 +433,7 @@ export default function Console({ user, onSignOut }) {
                 <FontAwesomeIcon icon={faTimes} />
               </button>
 
+              {/* Markaziy Ulashish Ikonkasi (Pulse Effektli) */}
               <motion.div 
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -445,6 +443,7 @@ export default function Console({ user, onSignOut }) {
                 <FontAwesomeIcon icon={faShareNodes} className="text-[#6366F1] text-xl" />
               </motion.div>
 
+              {/* Sarlavha va Tavsif */}
               <h3 className="text-lg font-semibold text-white tracking-wide mb-1 truncate px-4">
                 {currentChatTitle}
               </h3>
@@ -452,6 +451,7 @@ export default function Console({ user, onSignOut }) {
                 Ushbu havola orqali boshqalar loyihani ko‘ra olishadi
               </p>
 
+              {/* Ikonkalar paneli (Staggered Pop-In Animatsiyasi) */}
               <motion.div 
                 initial="hidden"
                 animate="visible"
@@ -461,6 +461,8 @@ export default function Console({ user, onSignOut }) {
                 }}
                 className="grid grid-cols-4 gap-3 mb-2"
               >
+                
+                {/* Havolani nusxalash */}
                 <motion.button
                   variants={{ hidden: { y: 10, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
                   onClick={() => {
@@ -473,6 +475,7 @@ export default function Console({ user, onSignOut }) {
                   <span className="text-[11px] text-gray-400 group-hover:text-gray-200 font-medium">Nusxalash</span>
                 </motion.button>
 
+                {/* Telegram — URL parametri ko'k rangli haqiqiy havola shaklida */}
                 <motion.a
                   variants={{ hidden: { y: 10, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
                   href={`https://t.me/share/url?url=${encodeURIComponent(generatedShareUrl)}&text=${encodeURIComponent(currentChatTitle)}`}
@@ -484,6 +487,7 @@ export default function Console({ user, onSignOut }) {
                   <span className="text-[11px] text-gray-400 group-hover:text-gray-200 font-medium">Telegram</span>
                 </motion.a>
 
+                {/* WhatsApp */}
                 <motion.a
                   variants={{ hidden: { y: 10, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
                   href={`https://api.whatsapp.com/send?text=${encodeURIComponent(currentChatTitle + "\n\n" + generatedShareUrl)}`}
@@ -495,6 +499,7 @@ export default function Console({ user, onSignOut }) {
                   <span className="text-[11px] text-gray-400 group-hover:text-gray-200 font-medium">WhatsApp</span>
                 </motion.a>
 
+                {/* LinkedIn */}
                 <motion.a
                   variants={{ hidden: { y: 10, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
                   href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(generatedShareUrl)}`}
@@ -505,11 +510,13 @@ export default function Console({ user, onSignOut }) {
                   <FontAwesomeIcon icon={faLinkedin} className="text-[#0077B5] text-lg mb-1.5" />
                   <span className="text-[11px] text-gray-400 group-hover:text-gray-200 font-medium">LinkedIn</span>
                 </motion.a>
+
               </motion.div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+      {/* ======================================================================= */}
 
       <Sidebar
         collapsed={collapsed}
@@ -530,14 +537,10 @@ export default function Console({ user, onSignOut }) {
       />
 
       <div className="flex-1 flex flex-col min-w-0 pt-14 md:pt-0">
-        
-        {/* ======================================================================= */}
-        {/* 🌟 RESPONSIVE GLOBAL HEADER BAR */}
-        {/* ======================================================================= */}
-        <div className="flex items-center justify-between border-b border-white/10 px-4 md:px-5 py-3 bg-[#0F0F11]">
+        <div className="hidden md:flex items-center justify-between border-b border-white/10 px-5 py-3 bg-[#0F0F11]">
           <div className="flex items-center gap-2 text-white/80 truncate">
-            <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)] shrink-0" aria-hidden="true" />
-            <span className="truncate font-medium tracking-wide">
+            <span className="w-6 h-6 rounded-full bg-lavender-deep shrink-0" aria-hidden="true" />
+            <span className="truncate">
               {page === "chat"
                 ? activeChat?.title || t("console.newChat")
                 : page === "wallet"
@@ -548,21 +551,20 @@ export default function Console({ user, onSignOut }) {
             </span>
           </div>
           
-          {/* Har qanday ekranda chiroyli joylashadigan action tugmalari */}
-          <div className="flex items-center gap-1.5 md:gap-3 shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
+          
             <button
               onClick={() => setPage("wallet")}
-              className="cursor-pointer bg-[#6366F1] text-white hover:bg-[#5356E2] transition-all duration-300 text-[11px] md:text-xs font-semibold px-2.5 md:px-4 py-1.5 rounded-full shadow-lg shadow-indigo-950/40"
+              className="cursor-pointer bg-lavender-deep text-ink text-xs font-medium px-3 py-1.5 rounded-full"
             >
               Upgrade 
             </button>
 
             <button
               onClick={openShareInterface}
-              className="cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300 text-[11px] md:text-xs px-2.5 md:px-4 py-1.5 rounded-full flex items-center gap-1.5 text-white/90"
+              className="cursor-pointer bg-white/10 hover:bg-white/15 transition-colors text-xs px-4 py-1.5 rounded-full flex items-center gap-1.5"
             >
-              <FontAwesomeIcon icon={faShareNodes} className="text-white/60 text-[10px] md:text-xs" />
-              <span className="hidden sm:inline">Share</span>
+              Share
             </button>
 
             <button
@@ -575,53 +577,51 @@ export default function Console({ user, onSignOut }) {
                   showCardNotify("Chop etish uchun avval xabar yozib, chatni boshlang!", "error");
                 }
               }}
-              className="cursor-pointer bg-white text-black hover:bg-gray-200 transition-all duration-300 text-[11px] md:text-xs font-semibold px-2.5 md:px-4 py-1.5 rounded-full flex items-center gap-1.5 shadow-md"
+              className="cursor-pointer bg-white text-black text-xs font-medium px-3 py-1.5 rounded-full"
             >
-              <FontAwesomeIcon icon={faCloudUploadAlt} className="text-[10px] md:text-xs text-black/70" />
-              <span className="hidden sm:inline">Publish</span>
+              Publish
             </button>
           </div>
         </div>
 
-        {/* Dynamic Pages Area */}
         {page === "home" && <HomePage user={user} onStartChat={handleStartChatFromHome} />}
         {page === "wallet" && <WalletPage user={user} />}
-        {page === "admin" && user?.is_admin && <AdminPage />}
+        {page === "admin" && user.is_admin && <AdminPage />}
         {page === "profile" && <Profil user={user} />} 
         {page === "integrations" && <Integrations />} 
 
         {(page === "projects" || page === "activity" || page === "templates" || page === "images") && (
           <div className="flex-1 flex items-center justify-center text-white/40 dot-grid">
-            <p className="tracking-wide">{t(`console.${page}`)} — coming soon</p>
+            <p>{t(`console.${page}`)} — coming soon</p>
           </div>
         )}
 
         {page === "archive" && (
-          <div className="flex-1 overflow-y-auto px-4 md:px-8 py-8">
+          <div className="flex-1 overflow-y-auto px-8 py-8">
             <div className="max-w-3xl mx-auto">
-              <h1 className="text-2xl font-medium mb-6 tracking-tight">{t("archive")}</h1>
+              <h1 className="text-2xl font-medium mb-6">{t("archive")}</h1>
               {archivedChats.length === 0 ? (
                 <p className="text-white/40">{t("console.archiveEmpty") || "—"}</p>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-1">
                   {archivedChats.map((c) => (
                     <div
                       key={c.id}
-                      className="flex items-center justify-between rounded-xl px-4 py-3 bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.05] transition-all duration-200"
+                      className="flex items-center justify-between rounded-xl px-4 py-3 bg-white/[0.03] border border-white/10 hover:bg-white/[0.06] transition-colors"
                     >
-                      <button onClick={() => handleSelectChat(c.id)} className="text-left flex-1 truncate text-sm hover:text-indigo-400 transition-colors">
+                      <button onClick={() => handleSelectChat(c.id)} className="text-left flex-1 truncate text-sm">
                         {c.title || t("noName")}
                       </button>
                       <div className="flex items-center gap-2 shrink-0">
                         <button
                           onClick={() => handleArchiveChat(c.id)}
-                          className="text-xs text-white/50 hover:text-white px-2.5 py-1 rounded-lg hover:bg-white/10 transition-colors"
+                          className="text-xs text-white/50 hover:text-white px-2 py-1 rounded-lg hover:bg-white/10"
                         >
                           {t("removeFromArchive")}
                         </button>
                         <button
                           onClick={() => handleDeleteChat(c.id)}
-                          className="text-xs text-red-400/70 hover:text-red-400 px-2.5 py-1 rounded-lg hover:bg-red-500/10 transition-colors"
+                          className="text-xs text-red-400/70 hover:text-red-400 px-2 py-1 rounded-lg hover:bg-red-500/10"
                         >
                           {t("delete")}
                         </button>
@@ -636,7 +636,7 @@ export default function Console({ user, onSignOut }) {
 
         {page === "chat" && activeChat && (
           <div className="flex-1 flex min-h-0">
-            <div className="w-full max-w-xl border-r border-white/10 flex flex-col min-h-0 bg-[#0b0b0d]">
+            <div className="w-full max-w-xl border-r border-white/10 flex flex-col min-h-0">
               <ChatPage
                 messages={activeChat.messages}
                 onSend={(msg) => sendMessage(activeChat.id, msg)}
@@ -647,19 +647,19 @@ export default function Console({ user, onSignOut }) {
                 loading={loading}
               />
             </div>
-            <div className="hidden md:flex flex-1 min-h-0 bg-[#070708]">
+            <div className="hidden md:flex flex-1 min-h-0">
               {activeCode ? (
                 <CodePanel code={activeCode} />
               ) : (
-                <div className="flex-1 flex items-center justify-center relative dot-grid select-none">
+                <div className="flex-1 flex items-center justify-center relative dot-grid">
                   <div className="text-center">
-                    <span className="text-3xl block mb-2 text-indigo-500/80 animate-pulse" aria-hidden="true">
+                    <span className="text-4xl block mb-1 animate-pulse" aria-hidden="true">
                       ✳
                     </span>
-                    <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase font-bold mb-2">
+                    <p className="text-[10px] tracking-widest text-white/30 mb-2">
                       {t("console.tips")}
                     </p>
-                    <p className="text-white/50 text-xs max-w-xs mx-auto leading-relaxed">{t("console.tipText")}</p>
+                    <p className="text-white/60 text-sm max-w-xs mx-auto">{t("console.tipText")}</p>
                   </div>
                 </div>
               )}
