@@ -1,0 +1,237 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-cream: #faf9f5;
+  --color-ink: #17150f;
+  --color-ink-soft: #4a4740;
+  --color-muted: #8a8578;
+  --color-line: #e7e3d9;
+  --color-surface: #ffffff;
+
+  --color-lavender: #e6dcf6;
+  --color-lavender-deep: #d6c4ef;
+  --color-lavender-pill: #d9c8ef;
+
+  --color-maroon: #6e0f13;
+  --color-maroon-deep: #4a0a0d;
+
+  --color-mint: #d8f0c6;
+  --color-forest: #0f4432;
+
+  /* Statik tokenlar — doimiy rangli fonlar (maroon, mint) ustida matn uchun,
+     bular light/dark rejimga qarab O'ZGARMAYDI, aks holda kontrast buziladi */
+  --color-onaccent: #f7f4ec;
+  --color-onmint: #12321f;
+
+  --radius-card: 1.1rem;
+}
+
+/* Dark theme — invert core tokens, accents stay put on purpose */
+:root.dark {
+  --color-cream: #121210;
+  --color-ink: #f3f1ea;
+  --color-ink-soft: #c7c3b8;
+  --color-muted: #8f8a7c;
+  --color-line: #2c2a24;
+  --color-surface: #1b1a16;
+
+  --color-lavender: #241f30;
+  --color-lavender-deep: #3c3252;
+  --color-lavender-pill: #443a5c;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* dotted background used behind hero */
+.dot-grid {
+  background-image: radial-gradient(
+    var(--color-line) 1.4px,
+    transparent 1.4px
+  );
+  background-size: 22px 22px;
+}
+
+/* Scroll-reveal: elements rise from below as they enter the viewport */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Infinite marquee, pauses on hover */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left var(--marquee-duration, 28s) linear infinite;
+}
+
+.marquee-track.reverse {
+  animation-direction: reverse;
+}
+
+.marquee-group:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes spin-once {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin-once {
+  animation: spin-once 0.6s ease;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* Chiroyli, ingichka scrollbar — asosiy sayt va Console uchun */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-line);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-muted);
+}
+/* Console doim qorong'i fonda ishlaydi — scrollbar shunga mos bo'lishi kerak */
+.cw-console * {
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+.cw-console *::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+.cw-console *::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.32);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- MOBIL MENYU UCHUN YANGI ANIMATSIYA --- */
+@keyframes mobileMenuSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-mobile-menu {
+  animation: mobileMenuSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+/* 🌌 AI uslubidagi zamonaviy orqa fon nuqtalari */
+.dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* ✨ Premium tugmalar uchun neon nur effekti */
+.ai-glow-button {
+  position: relative;
+  transition: all 0.3s ease;
+}
+.ai-glow-button::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(90deg, #6366f1, #a855f7, #6366f1);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  filter: blur(8px);
+  transition: opacity 0.3s ease;
+}
+.ai-glow-button:hover::after {
+  opacity: 0.6;
+}
+
+/* 🤖 AI matn yozayotgandagi silliq cursor animatsiyasi */
+.ai-cursor::after {
+  content: '▋';
+  font-family: monospace;
+  animation: blink 0.8s infinite;
+  color: #6366f1;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
