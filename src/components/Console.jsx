@@ -10,10 +10,8 @@ import { buildCodyReply } from "./console/codyReply.js";
 import Profil from "./Profil.jsx";
 import Integrations from "./Integrations.jsx";
 
-// 🌟 Animatsiyalar uchun Framer Motion import qilindi
 import { motion, AnimatePresence } from "framer-motion";
 
-// Font Awesome Ikonkalari
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
   faShareNodes, 
@@ -92,12 +90,9 @@ export default function Console({ user, onSignOut }) {
   const [activeChatId, setActiveChatId] = useState(null);
   const [activeCode, setActiveCode] = useState(null);
 
-  // Modal konteynerini aniqlash uchun Ref
   const modalRef = useRef(null);
 
-  // ----------------------------------------------------
-  // 🌟 MODAL VA NOTIFICATION STATES
-  // ----------------------------------------------------
+  
   const [notification, setNotification] = useState({ show: false, message: "", type: "success" });
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [generatedShareUrl, setGeneratedShareUrl] = useState("");
@@ -109,7 +104,6 @@ export default function Console({ user, onSignOut }) {
       setNotification({ show: false, message: "", type: "success" });
     }, 3000);
   };
-  // ----------------------------------------------------
 
   const token = window.localStorage.getItem("cw-token");
   const [backendMode, setBackendMode] = useState(false);
@@ -344,7 +338,6 @@ export default function Console({ user, onSignOut }) {
     sendMessage(activeChatId, msg);
   };
 
-  // 🔗 MODALNI OCHISH LOGIKASI
   const openShareInterface = () => {
     const currentChatId = activeChatId || (chats.length > 0 ? chats[0].id : null);
     const currentChat = chats.find(c => c.id === currentChatId);
@@ -359,7 +352,6 @@ export default function Console({ user, onSignOut }) {
     }
   };
 
-  // 🛑 MODALDAN TASHQARI HUDUD BOSILGANDA YOPISH LOGIKASI
   const handleBackdropClick = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
       setIsShareModalOpen(false);
@@ -369,9 +361,6 @@ export default function Console({ user, onSignOut }) {
   return (
     <div className="cw-console fixed inset-0 z-40 flex bg-[#0c0c0c] text-[#e9e7df] text-sm select-none font-sans">
       
-      {/* ======================================================================= */}
-      {/* 🌟 PREMIUM CARD NOTIFICATION ANIMATION */}
-      {/* ======================================================================= */}
       <AnimatePresence>
         {notification.show && (
           <motion.div 

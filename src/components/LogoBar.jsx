@@ -6,8 +6,8 @@ import {
   faMicrosoft, 
   faAmazon, 
   faApple 
-} from "@fortawesome/free-brands-svg-icons"; // Brend ikonkalari uchun
-import { faMicrochip } from "@fortawesome/free-solid-svg-icons"; // AMD uchun
+} from "@fortawesome/free-brands-svg-icons";
+import { faMicrochip } from "@fortawesome/free-solid-svg-icons";
 
 const logos = [
   { name: "Google", icon: faGoogle },
@@ -38,7 +38,7 @@ export default function LogoBar() {
             >
               {/* Ikonka va matn 1 ga 1 o'lchamda */}
               <FontAwesomeIcon icon={logo.icon} className="w-7 h-7 md:w-8 md:h-8" />
-              <span className="whitespace-nowrap">{logo.name}</span>
+              <span className="cursor-pointer whitespace-nowrap">{logo.name}</span>
             </div>
           ))}
         </Marquee>

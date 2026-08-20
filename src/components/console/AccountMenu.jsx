@@ -40,7 +40,6 @@ export default function AccountMenu({ user, onNavigate, onSignOut, onClose }) {
       className="absolute bottom-full left-2 mb-3 w-72 bg-[#1e1e1f] border border-zinc-800 rounded-2xl shadow-2xl p-2 text-[#e3e3e3] text-xs z-50 transform transition-all duration-200"
     >
       
-      {/* 1. FOYDALANUVCHI PROFILLI (Gemini uslubida toza va tekis jo'ylashuv) */}
       {user ? (
         <div className="flex items-center gap-3 px-3 py-3 border-b border-zinc-800/60 mb-1.5">
           <img
@@ -59,10 +58,9 @@ export default function AccountMenu({ user, onNavigate, onSignOut, onClose }) {
         </div>
       )}
 
-      {/* 2. GEMINI ADVANCED SUB-CARD (O'sha mashhur AI gradientli premium reklama bloki) */}
       <div className="mx-1 my-1.5 p-3 rounded-xl bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-pink-500/10 border border-purple-500/20 relative overflow-hidden group">
         <div className="flex items-center gap-2 mb-1">
-          {/* Gemini yulduzcha ikonkasining Tailwind varianti */}
+
           <i className="fa-solid fa-wand-magic-sparkles text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-xs" />
           <span className="font-semibold text-[11px] text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-300 to-pink-400 uppercase tracking-wider">
             Gemini Advanced
@@ -79,7 +77,6 @@ export default function AccountMenu({ user, onNavigate, onSignOut, onClose }) {
         </button>
       </div>
 
-      {/* 3. ASOSIY RO'YXAT (Minimalist piktogrammalar va tekis tekstlar) */}
       <div className="space-y-[2px] px-1">
         {items.map(([key, icon, page]) => (
           <button
@@ -95,7 +92,6 @@ export default function AccountMenu({ user, onNavigate, onSignOut, onClose }) {
           </button>
         ))}
 
-        {/* Support (Yordam) qismi */}
         <div
           className="relative"
           onMouseEnter={() => setShowSupportOptions(true)}
@@ -112,7 +108,6 @@ export default function AccountMenu({ user, onNavigate, onSignOut, onClose }) {
             <i className={`fa-solid fa-chevron-right text-[9px] text-zinc-600 transition-transform ${showSupportOptions ? 'translate-x-0.5 text-purple-400' : ''}`} />
           </button>
 
-          {/* O'ngga chiqadigan nozik mini-menyu */}
           <div className={`absolute left-full top-0 ml-1.5 w-40 bg-[#1e1e1f] border border-zinc-800 rounded-xl p-1 shadow-2xl transition-all duration-150 z-50 ${
             showSupportOptions ? "opacity-100 visible translate-x-0" : "opacity-0 invisible -translate-x-1 pointer-events-none"
           }`}>
@@ -142,7 +137,6 @@ export default function AccountMenu({ user, onNavigate, onSignOut, onClose }) {
 
       <div className="border-t border-zinc-800/60 my-1 mx-1" />
 
-      {/* 4. SOZLAMALAR (Tema va Tillar bloki - nihoyatda ixcham va integrallashgan) */}
       <div className="px-2 py-2 bg-zinc-900/40 rounded-xl border border-zinc-800/60 mx-1 my-1">
         <div className="flex items-center justify-between text-[11px] mb-2 px-1">
           <span className="text-zinc-500 font-medium">{m.settings}</span>
@@ -155,7 +149,6 @@ export default function AccountMenu({ user, onNavigate, onSignOut, onClose }) {
           </button>
         </div>
 
-        {/* Tillar paneli */}
         <div className="grid grid-cols-3 gap-1">
           {languages.map((l) => (
             <button
@@ -175,7 +168,6 @@ export default function AccountMenu({ user, onNavigate, onSignOut, onClose }) {
 
       <div className="border-t border-zinc-800/60 my-1 mx-1" />
 
-      {/* 5. TIZIMDAN CHIQISH (Pastki silliq tugma) */}
       <div className="px-1">
         <button
           onClick={onSignOut}
